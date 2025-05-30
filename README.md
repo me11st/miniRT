@@ -41,7 +41,7 @@ miniRT
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/miniRT.git
+   git clone https://github.com/me11st/miniRT.git
    cd miniRT
    ```
 
