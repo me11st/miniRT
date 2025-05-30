@@ -1,27 +1,47 @@
-NAME = miniRT
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -I includes -lmlx -framework OpenGL -framework AppKit
-SRC_DIR = srcs
-OBJ_DIR = objs
-SRC_FILES = main.c parser.c vector.c ray.c light.c color.c render.c \
-            objects/sphere.c objects/plane.c objects/cylinder.c
-OBJ_FILES = $(SRC_FILES:.c=.o)
-OBJ_PATH = $(addprefix $(OBJ_DIR)/, $(OBJ_FILES))
+NAME =			miniRT
+#LIBFTDIR =		src/libft
+MLXDIR =		src/minilibx
+OBJ_DIR =		obj
+#LIBFT = $(LIBFTDIR)/libft.a
+MLX =			$(MLXDIR)/libmlx.a
+CC =			cc
+CFLAGS =		-Wall -Wextra -Werror -g -fsanitize=address
+#LIBS = -L$(LIBFTDIR) -lft -L$(MLXDIR) -lmlx -lXext -lX11 -lm
+INCLUDES =		-Iincludes -I$(MLXDIR) #-I$(LIBFTDIR)
+SRC_FILES =		main parser vector ray light color render \
+            		objects/sphere objects/plane objects/cylinder
+SRC = 			$(addsuffix .c, $(addprefix srcs/, $(SRC_FILES)))
+OBJ =			$(SRC:%.c=$(OBJ_DIR)/%.o)
 
-all: $(NAME)
+all: $(OBJ_DIR) $(NAME)
 
-$(NAME): $(OBJ_PATH)
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJ_PATH)
+$(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(dir $@)
+	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+$(NAME): $(OBJ) $(LIBFT) $(MLX)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBS) -o $(NAME)
+
+#$(LIBFT):
+#    @$(MAKE) -C $(LIBFTDIR)
+
+$(MLX):
+	@if [ ! -d "$(MLXDIR)" ]; then \
+		git clone https://github.com/42Paris/minilibx-linux.git $(MLXDIR); \
+	fi
+	@make -C $(MLXDIR)
+
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
 
 clean:
-	rm -rf $(OBJ_DIR)
+	@$(MAKE) -C $(MLXDIR) clean
+	@rm -rf $(OBJ_DIR)
+#    @$(MAKE) -C $(LIBFTDIR) clean
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
+ #   @$(MAKE) -C $(LIBFTDIR) fclean
 
 re: fclean all
 
