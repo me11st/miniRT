@@ -4,7 +4,6 @@
 #include "vector.h"
 #include "color.h"
 #include "light.h"
-#include <string.h>
 
 void parse_scene(const char *filename, t_scene *scene)
 {
@@ -24,21 +23,21 @@ void parse_scene(const char *filename, t_scene *scene)
             continue;
             
         char *tokens[10];
-        int token_count = tokenize_line(line, tokens);
+        int token_count = ft_tokenize_line(line, tokens, 10);
         
         if (token_count > 0)
         {
-            if (strcmp(tokens[0], "A") == 0)
+            if (ft_strcmp(tokens[0], "A") == 0)
                 parse_ambient_light(tokens, token_count, scene);
-            else if (strcmp(tokens[0], "C") == 0)
+            else if (ft_strcmp(tokens[0], "C") == 0)
                 parse_camera(tokens, token_count, scene);
-            else if (strcmp(tokens[0], "L") == 0)
+            else if (ft_strcmp(tokens[0], "L") == 0)
                 parse_light(tokens, token_count, scene);
-            else if (strcmp(tokens[0], "sp") == 0)
+            else if (ft_strcmp(tokens[0], "sp") == 0)
                 parse_sphere(tokens, token_count, scene);
-            else if (strcmp(tokens[0], "pl") == 0)
+            else if (ft_strcmp(tokens[0], "pl") == 0)
                 parse_plane(tokens, token_count, scene);
-            else if (strcmp(tokens[0], "cy") == 0)
+            else if (ft_strcmp(tokens[0], "cy") == 0)
                 parse_cylinder(tokens, token_count, scene);
         }
     }
@@ -75,17 +74,7 @@ void create_default_scene(t_scene *scene)
 
 int tokenize_line(char *line, char **tokens)
 {
-    int count = 0;
-    char *token = strtok(line, " \t\n");
-    
-    while (token && count < 10)
-    {
-        tokens[count] = token;
-        count++;
-        token = strtok(NULL, " \t\n");
-    }
-    
-    return count;
+    return ft_tokenize_line(line, tokens, 10);
 }
 
 void parse_camera(char **tokens, int count, t_scene *scene)
@@ -94,7 +83,7 @@ void parse_camera(char **tokens, int count, t_scene *scene)
     {
         t_vector pos = parse_vector(tokens[1]);
         t_vector dir = parse_vector(tokens[2]);
-        double fov = atof(tokens[3]);
+        double fov = ft_atof(tokens[3]);
         
         scene->camera.position = pos;
         scene->camera.direction = vector_normalize(dir);
@@ -106,7 +95,7 @@ void parse_ambient_light(char **tokens, int count, t_scene *scene)
 {
     if (count >= 3)
     {
-        double intensity = atof(tokens[1]);
+        double intensity = ft_atof(tokens[1]);
         t_color color = parse_color(tokens[2]);
         
         t_light ambient = create_ambient_light(color, intensity);
@@ -119,7 +108,7 @@ void parse_light(char **tokens, int count, t_scene *scene)
     if (count >= 4)
     {
         t_vector pos = parse_vector(tokens[1]);
-        double intensity = atof(tokens[2]);
+        double intensity = ft_atof(tokens[2]);
         t_color color = parse_color(tokens[3]);
         
         t_light light = create_point_light(pos, color, intensity);
@@ -132,7 +121,7 @@ void parse_sphere(char **tokens, int count, t_scene *scene)
     if (count >= 4)
     {
         t_vector center = parse_vector(tokens[1]);
-        double radius = atof(tokens[2]);
+        double radius = ft_atof(tokens[2]);
         t_color color = parse_color(tokens[3]);
         
         t_object sphere = create_sphere(center, radius, color);
@@ -157,13 +146,14 @@ void parse_cylinder(char **tokens, int count, t_scene *scene)
 {
     if (count >= 6)
     {
-        t_vector center = parse_vector(tokens[1]);
-        t_vector direction = parse_vector(tokens[2]);
-        double radius = atof(tokens[3]);
-        double height = atof(tokens[4]);
-        t_color color = parse_color(tokens[5]);
+        t_cylinder cylnd;
+        cylnd.center = parse_vector(tokens[1]);
+        cylnd.direction = parse_vector(tokens[2]);
+        cylnd.radius = ft_atof(tokens[3]);
+        cylnd.height = ft_atof(tokens[4]);
+        cylnd.color = parse_color(tokens[5]);
         
-        t_object cylinder = create_cylinder(center, radius, height, direction, color);
+        t_object cylinder = create_cylinder(cylnd);
         add_object(scene, cylinder);
     }
 }
@@ -171,13 +161,13 @@ void parse_cylinder(char **tokens, int count, t_scene *scene)
 t_vector parse_vector(char *str)
 {
     double x, y, z;
-    sscanf(str, "%lf,%lf,%lf", &x, &y, &z);
+    ft_parse_vector_values(str, &x, &y, &z);
     return create_vector(x, y, z);
 }
 
 t_color parse_color(char *str)
 {
     int r, g, b;
-    sscanf(str, "%d,%d,%d", &r, &g, &b);
+    ft_parse_color_values(str, &r, &g, &b);
     return create_color(r / 255.0, g / 255.0, b / 255.0);
 }

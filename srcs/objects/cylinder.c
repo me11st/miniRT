@@ -5,16 +5,13 @@
 #include "color.h"
 #include <math.h>
 
-t_object create_cylinder(t_vector center, double radius, double height, t_vector direction, t_color color)
+t_object create_cylinder(t_cylinder cylnd)
 {
     t_object obj;
     
     obj.type = CYLINDER;
-    obj.shape.cylinder.center = center;
-    obj.shape.cylinder.radius = radius;
-    obj.shape.cylinder.height = height;
-    obj.shape.cylinder.direction = vector_normalize(direction);
-    obj.shape.cylinder.color = color;
+    obj.shape.cylinder = cylnd;
+    obj.shape.cylinder.direction = vector_normalize(cylnd.direction);
     return obj;
 }
 

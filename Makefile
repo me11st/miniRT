@@ -7,7 +7,7 @@ OBJ_DIR = objs
 MLXDIR = minilibx-linux
 MLX = $(MLXDIR)/libmlx.a
 
-SRC_FILES = main.c parser.c vector.c ray.c light.c color.c render.c scene.c mlx_display.c \
+SRC_FILES = main.c parser.c vector.c ray.c light.c color.c render.c scene.c mlx_display.c utils.c \
             objects/sphere.c objects/plane.c objects/cylinder.c
 OBJ_FILES = $(SRC_FILES:.c=.o)
 OBJ_PATH = $(addprefix $(OBJ_DIR)/, $(OBJ_FILES))

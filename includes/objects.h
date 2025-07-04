@@ -42,7 +42,7 @@ typedef struct s_object {
 
 // Object creation functions
 t_object create_sphere(t_vector center, double radius, t_color color);
-t_object create_cylinder(t_vector center, double radius, double height, t_vector direction, t_color color);
+t_object create_cylinder(t_cylinder cylnd);
 t_object create_plane(t_vector point, t_vector normal, t_color color);
 
 // Intersection functions

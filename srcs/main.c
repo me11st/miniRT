@@ -1,6 +1,5 @@
 #include "minirt.h"
 #include "scene.h"
-#include <string.h>
 
 int main(int argc, char **argv)
 {
@@ -15,7 +14,7 @@ int main(int argc, char **argv)
     }
     
     // Check for display mode flag
-    if (argc >= 3 && strcmp(argv[2], "--display") == 0)
+    if (argc >= 3 && ft_strcmp(argv[2], "--display") == 0)
         display_mode = 1;
 
     // Create scene

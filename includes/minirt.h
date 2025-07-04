@@ -39,4 +39,11 @@ void parse_cylinder(char **tokens, int count, t_scene *scene);
 t_vector parse_vector(char *str);
 t_color parse_color(char *str);
 
+// Custom utility functions (42 norm compliant)
+double ft_atof(const char *str);
+int ft_strcmp(const char *s1, const char *s2);
+int ft_tokenize_line(char *line, char **tokens, int max_tokens);
+int ft_parse_vector_values(const char *str, double *x, double *y, double *z);
+int ft_parse_color_values(const char *str, int *r, int *g, int *b);
+
 #endif // MINIRT_H
