@@ -7,41 +7,40 @@
 
 t_object create_sphere(t_vector center, double radius, t_color color)
 {
-    t_object obj;
+    t_object	obj;
     
     obj.type = SPHERE;
     obj.shape.sphere.center = center;
     obj.shape.sphere.radius = radius;
     obj.shape.sphere.color = color;
-    return obj;
+    return (obj);
 }
 
 int intersect_sphere(t_ray ray, t_sphere sphere, double *t)
 {
-    t_vector oc = vector_subtract(ray.origin, sphere.center);
-    double a = vector_dot(ray.direction, ray.direction);
-    double b = 2.0 * vector_dot(oc, ray.direction);
-    double c = vector_dot(oc, oc) - sphere.radius * sphere.radius;
-    double discriminant = b * b - 4 * a * c;
+    t_vector	oc;
+    double		a;
+    double		b;
+    double		c;
+    double		discriminant;
 
-    if (discriminant < 0)
-        return 0;
-
-    double t1 = (-b - sqrt(discriminant)) / (2.0 * a);
-    double t2 = (-b + sqrt(discriminant)) / (2.0 * a);
-    
-    // Return the closest positive intersection
-    if (t1 > 0.001)
-        *t = t1;
-    else if (t2 > 0.001)
-        *t = t2;
+    oc = vector_subtract(ray.origin, sphere.center);
+	a = vector_dot(ray.direction, ray.direction);
+	b = 2.0 * vector_dot(oc, ray.direction);
+	c = vector_dot(oc, oc) - sphere.radius * sphere.radius;
+	discriminant = b * b - 4 * a * c;
+	if (discriminant < 0)
+        return (0);
+    if ((-b - sqrt(discriminant)) / (2.0 * a) > 0.001)
+        *t = (-b - sqrt(discriminant)) / (2.0 * a);
+    else if ((-b + sqrt(discriminant)) / (2.0 * a) > 0.001)
+        *t = (-b + sqrt(discriminant)) / (2.0 * a);
     else
-        return 0;
-    
-    return 1;
+        return (0);
+    return (1);
 }
 
 t_vector get_sphere_normal(t_sphere sphere, t_vector point)
 {
-    return vector_normalize(vector_subtract(point, sphere.center));
+    return (vector_normalize(vector_subtract(point, sphere.center)));
 }
