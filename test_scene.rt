@@ -1,0 +1,22 @@
+# miniRT scene file
+# Format: TYPE param1 param2 param3 ...
+
+# Ambient lighting
+A 0.2 255,255,255
+
+# Camera: position direction fov
+C 0,0,5 0,0,-1 60
+
+# Light: position brightness color
+L -2,4,4 0.8 255,255,255
+
+# Sphere: center radius color
+sp 0,0,0 1.0 255,0,0
+sp 2,0,-2 0.8 0,255,0
+sp -2,1,-1 0.6 0,0,255
+
+# Plane: point normal color
+pl 0,-2,0 0,1,0 200,200,200
+
+# Cylinder: center direction radius height color
+cy 1,-1,0 0,1,0 0.3 2.0 255,255,0
