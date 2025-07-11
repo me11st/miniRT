@@ -19,16 +19,17 @@ t_object create_plane(t_vector point, t_vector normal, t_color color)
 // Function to calculate the intersection of a ray with a plane
 int intersect_plane(t_ray ray, t_plane plane, double *t)
 {
-    double	denom;
-    double	numerator;
+    double      denom;
+    double      numerator;
+    t_vector    plane_to_origin;
 
     denom = vector_dot(plane.normal, ray.direction);
     if (fabs(denom) > 1e-6)
     {
-        t_vector plane_to_origin = vector_subtract(plane.point, ray.origin);
+        plane_to_origin = vector_subtract(plane.point, ray.origin);
         numerator = vector_dot(plane_to_origin, plane.normal);
         *t = numerator / denom;
-        return (*t > 0.001); // Small epsilon to avoid self-intersection
+        return (*t > 0.001);
     }
     return 0;
 }
@@ -36,6 +37,6 @@ int intersect_plane(t_ray ray, t_plane plane, double *t)
 // Function to calculate the normal of a plane at a given point
 t_vector get_plane_normal(t_plane plane, t_vector point)
 {
-    (void)point; // Unused parameter
-    return plane.normal; // Normal is constant for a plane
+    (void)point;
+    return (plane.normal);
 }
