@@ -48,10 +48,10 @@ static int solve_cylinder_intersection(t_cylinder *cylinder, double *t)
     discriminant = cylinder->b * cylinder->b - 4 * cylinder->a * cylinder->c;
     if (discriminant < 0)
         return 0;
-    double t1 = (-cylinder->b - sqrt(discriminant)) / (2.0 * cylinder->a);
-    double t2 = (-cylinder->b + sqrt(discriminant)) / (2.0 * cylinder->a);
+    t1 = (-cylinder->b - sqrt(discriminant)) / (2.0 * cylinder->a);
+    t2 = (-cylinder->b + sqrt(discriminant)) / (2.0 * cylinder->a);
     // Choose the closest positive intersection
-    double hit_t = (t1 > 0.001) ? t1 : t2;
+    hit_t = (t1 > 0.001) ? t1 : t2;
     if (hit_t <= 0.001)
         return 0;
     *t = hit_t;

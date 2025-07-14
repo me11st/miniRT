@@ -115,7 +115,8 @@ t_color trace_ray(t_ray ray, t_scene *scene, int depth)
     for (int i = 0; i < scene->light_count; i++)
     {
         t_vector view_dir = vector_negate(ray.direction);
-        t_color light_contrib = calculate_lighting(scene->lights[i], hit_point, normal, view_dir, object_color);
+        t_lighting_context ctx = {hit_point, normal, view_dir, object_color};
+        t_color light_contrib = calculate_lighting(&scene->lights[i], ctx);
         final_color = color_add(final_color, light_contrib);
     }
     
